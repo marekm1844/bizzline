@@ -5,7 +5,7 @@ GET http://localhost:3000/news?company=openai
 GET http://localhost:3000/news/scrape?url=https://runwayml.com/blog/
 
 ### Scrape article Scalability AI
-GET http://localhost:3000/news/scrape?url=https://openai.com/blog
+GET http://localhost:3000/news/scrape?url=https://huggingface.co/blog
 
 ### Get latest date for company
 GET http://localhost:3000/news/latest?company=runwayml
