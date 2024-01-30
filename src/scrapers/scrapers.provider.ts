@@ -6,7 +6,7 @@ import { join } from 'path';
 
 export async function loadScrapers(): Promise<IScraper[]> {
   const scrapers: IScraper[] = [];
-  const scrapersDir = join(__dirname); // Adjust the path to your scrapers directory
+  const scrapersDir = join(__dirname);
   const scraperFiles = readdirSync(scrapersDir).filter((file) =>
     file.endsWith('.strategy.js'),
   );

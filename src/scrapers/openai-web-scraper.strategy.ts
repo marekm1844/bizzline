@@ -1,10 +1,11 @@
+import { Logger } from '@nestjs/common';
 import { ArticleContentService } from '../scraper/article-content.service';
 import { NewsWithArticle } from '../scraper/news.type';
 import { IScraper } from './scraper.interface';
 import * as cheerio from 'cheerio';
 import { parse } from 'date-fns';
 
-export class OpemAiWebScraperService implements IScraper {
+export class OpenAiWebScraperService implements IScraper {
   private articleContentService: ArticleContentService;
 
   constructor() {
@@ -30,12 +31,13 @@ export class OpemAiWebScraperService implements IScraper {
 
     $('.ui-list .cols-container li').each((index, element) => {
       const title = $(element).find('h3').text().trim();
-      const link =
-        'https://yourwebsite.com' + $(element).find('a').attr('href');
+      const link = 'https://openai.com/' + $(element).find('a').attr('href');
       const date = $(element).find('.f-body-1 span').first().text().trim();
       const source = 'Open AI Website';
       const company = 'openai.com';
-
+      Logger.debug(
+        `[OpenAiWebScraperService] scrapeArticle: ${title} ${link} ${date} ${source} ${company} `,
+      );
       newsItems.push({ title, link, date, source, company });
     });
 
@@ -43,9 +45,10 @@ export class OpemAiWebScraperService implements IScraper {
       newsItems.map(async (item) => {
         const articleHtml =
           await this.articleContentService.fetchArticleContent(item.link);
+        const parsedDate = parse(item.date, 'MMMM dd, yyyy', new Date());
         return {
           ...item,
-          date: parse(item.date.slice(0, 10), 'dd/MM/yyyy', new Date()),
+          date: parsedDate,
           innerText: articleHtml,
         };
       }),
