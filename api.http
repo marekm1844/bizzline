@@ -5,7 +5,7 @@ GET http://localhost:3000/news?company=openai
 GET http://localhost:3000/news/scrape?url=https://runwayml.com/blog/
 
 ### Scrape article Scalability AI
-GET http://localhost:3000/news/scrape?url=https://aleph-alpha.com/news
+GET http://localhost:3000/news/scrape?url=https://txt.cohere.com/tag/newsroom/
 
 
 ### Get latest date for company

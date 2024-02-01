@@ -25,6 +25,7 @@ export class AlephAlphaWebScraperService implements IScraper {
 
     await page.goto(`${url}#news`, { waitUntil: 'networkidle' });
 
+    //TODO: Add logic to click on the "Load More" button
     /**
       const loadMoreButtonSelector =
         'div[data-rel="ajax-load-more-2"] .alm-load-more-btn.more.btn';
