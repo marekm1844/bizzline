@@ -5,7 +5,7 @@ import { IScraper } from './scraper.interface';
 import * as cheerio from 'cheerio';
 import { parse } from 'date-fns';
 
-export class MistralWebScraperService implements IScraper {
+export class PerplexityWebScraperService implements IScraper {
   private articleContentService: ArticleContentService;
 
   constructor() {
@@ -30,6 +30,27 @@ export class MistralWebScraperService implements IScraper {
 
     const newsItems = [];
 
+    $('.framer-1qwgol9-container').each((_, container) => {
+      $(container)
+        .find('.framer-H5DcG')
+        .each((_, element) => {
+          const title = $(element).find('h4.framer-text').text().trim();
+          const link =
+            'https://blog.perplexity.ai/blog' +
+            $(element).find('a').attr('href').replace('./blog', '');
+          //const image = $(element).find('img').attr('src');
+          //const content = $(element).find('p.framer-text').text().trim();
+          const date = $(element).find('.framer-tygmxj p').text().trim();
+          const source = 'Perplexity  Website';
+          const company = 'perplexity';
+
+          Logger.debug(
+            `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+          );
+          newsItems.push({ title, link, date, source, company });
+        });
+    });
+
     $('.framer-7tc4vr-container').each((_, container) => {
       $(container)
         .find('.framer-sGx6I')
@@ -41,8 +62,8 @@ export class MistralWebScraperService implements IScraper {
           //const image = $(element).find('img').attr('src');
           //const content = $(element).find('p.framer-text').text().trim();
           const date = $(element).find('.framer-1ce0u31 p').text().trim();
-          const source = 'Mistral  Website';
-          const company = 'mistral';
+          const source = 'Perplexity  Website';
+          const company = 'perplexity';
 
           Logger.debug(
             `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
