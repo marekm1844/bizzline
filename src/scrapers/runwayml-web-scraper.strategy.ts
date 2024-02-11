@@ -11,6 +11,7 @@ export class RunwayMLWebScraperService implements IScraper {
     this.articleContentService = new ArticleContentService();
   }
   canHandle(url: string): boolean {
+    //https://runwayml.com/blog/
     return /^https?:\/\/.*runwayml.*\//i.test(url);
   }
 
@@ -56,7 +57,13 @@ export class RunwayMLWebScraperService implements IScraper {
                 `https://runwayml.com/blog/${item.slug}`,
               );
 
-            Logger.debug(`date: ${item.date}`);
+            let imageUrl = item.thumbnail;
+
+            // Check if imageUrl is relative and prepend domain if necessary
+            if (imageUrl && !imageUrl.startsWith('http')) {
+              imageUrl = `https://runwayml.com${imageUrl}`;
+            }
+
             return {
               title: item.title,
               link: `https://runwayml.com/blog/${item.slug}`,
@@ -64,6 +71,7 @@ export class RunwayMLWebScraperService implements IScraper {
               source: 'RunwayML Website',
               company: 'runwayml',
               innerText: articleHtml,
+              imageUrl: imageUrl,
             };
           }),
         );

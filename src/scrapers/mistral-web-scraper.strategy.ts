@@ -37,11 +37,22 @@ export class MistralWebScraperService implements IScraper {
       const date = $(element).find('li.list-inline-item.pr-4').text().trim();
       const source = 'Mistral  Website';
       const company = 'mistral';
+      const imageUrl = $(element).find('img.card-img-top').attr('src');
+      const fullImageUrl = imageUrl.startsWith('http')
+        ? imageUrl
+        : `https://mistral.ai${imageUrl}`;
 
       Logger.debug(
-        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${fullImageUrl} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({
+        title,
+        link,
+        date,
+        source,
+        company,
+        imageUrl: fullImageUrl,
+      });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

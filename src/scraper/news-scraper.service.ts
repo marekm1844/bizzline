@@ -19,7 +19,7 @@ export class NewsScraperService {
     this.scraper = this.scraperFactory.getScraper(url);
 
     this.logger.log(`Scraping article from ${url}`);
-    const result = (await this.scraper.scrapeArticle(url)).slice(0, 2);
+    const result = (await this.scraper.scrapeArticle(url)).slice(0, 8);
     return await Promise.all(
       result.map(async (article) => {
         const summary = await this.summaryService.generateJsonSummary(
@@ -33,6 +33,7 @@ export class NewsScraperService {
           title: article.title,
           summary: summary.summary,
           article: summary.article,
+          imageUrl: article.imageUrl,
         };
         await this.repo.create(withSummary);
         return withSummary;

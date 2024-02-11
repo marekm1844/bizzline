@@ -43,6 +43,13 @@ export class ArticleContentService {
     // Remove script and style tags
     $('script, style').remove();
 
+    /**
+      const images = $('img')
+        .map((_, img) => $(img).attr('src'))
+        .get();
+      const imageUrls = images.filter((src): src is string => !!src).join('\n');
+    */
+
     // Get text content
     return $('body').text();
   }

@@ -17,7 +17,7 @@ export class InflectionAiWebScraperService implements IScraper {
   }
   async scrapeArticle(url): Promise<NewsWithArticle[]> {
     if (!this.canHandle(url)) {
-      throw new Error('Invalid URL. Only ScalabilityAi URLs are allowed.');
+      throw new Error('Invalid URL. Only inflection URLs are allowed.');
     }
 
     const response = await fetch(url);
@@ -35,14 +35,19 @@ export class InflectionAiWebScraperService implements IScraper {
         const title = $(element).find('h2.css-qarofv.e14frs5r3').text().trim();
         const link = new URL($(element).find('a').attr('href'), url).toString(); // Assuming relative URLs
         const date = $(element).find('div.css-wrxzk1.e14frs5r4').text().trim();
-        //const imageUrl = $(element).find('img').last().attr('src'); // Assuming the last img tag contains the desired image
         const source = 'Inflection Website';
         const company = 'inflectionai';
+        // Get the noscript content
+        const noscriptContent = $(element).find('noscript').html();
+        const $noscript = cheerio.load(noscriptContent);
+
+        // Now find the <img> tag within the noscript content and get its src attribute
+        const imageUrl = $noscript('picture').find('img').attr('src');
 
         Logger.debug(
-          `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+          `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${imageUrl} `,
         );
-        newsItems.push({ title, link, date, source, company });
+        newsItems.push({ title, link, date, source, company, imageUrl });
       },
     );
 

@@ -12,11 +12,12 @@ export class OpenAiWebScraperService implements IScraper {
     this.articleContentService = new ArticleContentService();
   }
   canHandle(url: string): boolean {
+    //https://openai.com/blog?topics=announcements
     return /^https?:\/\/.*openai.com.*\//i.test(url);
   }
   async scrapeArticle(url): Promise<NewsWithArticle[]> {
     if (!/^https?:\/\/.*openai.com.*\//i.test(url)) {
-      throw new Error('Invalid URL. Only ScalabilityAi URLs are allowed.');
+      throw new Error('Invalid URL. Only openai URLs are allowed.');
     }
 
     const response = await fetch(url);
@@ -35,10 +36,12 @@ export class OpenAiWebScraperService implements IScraper {
       const date = $(element).find('.f-body-1 span').first().text().trim();
       const source = 'Open AI Website';
       const company = 'openai.com';
+      let imageUrl = $(element).find('img').attr('src');
+      imageUrl = imageUrl.split('?')[0];
       Logger.debug(
-        `[OpenAiWebScraperService] scrapeArticle: ${title} ${link} ${date} ${source} ${company} `,
+        `[OpenAiWebScraperService] scrapeArticle: ${title} ${link} ${date} ${source} ${company} ${imageUrl} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({ title, link, date, source, company, imageUrl });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

@@ -40,11 +40,12 @@ export class AI21WebScraperService implements IScraper {
       const date = $(element).find('.blog-date').text().trim();
       const source = 'AI21 Website';
       const company = 'ai21';
+      const imageUrl = $(element).find('.image-cover').attr('src') || ''; // Adjust the selector as needed
 
       Logger.debug(
-        `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} `,
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} ${imageUrl} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({ title, link, date, source, company, imageUrl });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

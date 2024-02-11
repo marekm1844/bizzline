@@ -6,6 +6,7 @@ export type News = {
   date: Date;
   source: string;
   company: string;
+  imageUrl: string;
 };
 
 export type NewsWithArticle = News & {
@@ -15,6 +16,7 @@ export type NewsWithArticle = News & {
 export type NewsWithSummary = News & {
   summary: string;
   article: string;
+  imageUrl: string;
 };
 
 export const NewsSchema = new mongoose.Schema({
@@ -25,4 +27,5 @@ export const NewsSchema = new mongoose.Schema({
   company: String,
   article: String,
   summary: String,
+  imageUrl: String,
 });

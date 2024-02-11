@@ -17,7 +17,7 @@ export class PerplexityWebScraperService implements IScraper {
   }
   async scrapeArticle(url): Promise<NewsWithArticle[]> {
     if (!this.canHandle(url)) {
-      throw new Error('Invalid URL. Only cohare URLs are allowed.');
+      throw new Error('Invalid URL. Only perplexity URLs are allowed.');
     }
 
     const response = await fetch(url);
@@ -38,16 +38,16 @@ export class PerplexityWebScraperService implements IScraper {
           const link =
             'https://blog.perplexity.ai/blog' +
             $(element).find('a').attr('href').replace('./blog', '');
-          //const image = $(element).find('img').attr('src');
+          const imageUrl = $(element).find('img').attr('src');
           //const content = $(element).find('p.framer-text').text().trim();
           const date = $(element).find('.framer-tygmxj p').text().trim();
           const source = 'Perplexity  Website';
           const company = 'perplexity';
 
           Logger.debug(
-            `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+            `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${imageUrl} `,
           );
-          newsItems.push({ title, link, date, source, company });
+          newsItems.push({ title, link, date, source, company, imageUrl });
         });
     });
 
@@ -59,16 +59,16 @@ export class PerplexityWebScraperService implements IScraper {
           const link =
             'https://blog.perplexity.ai/blog' +
             $(element).find('a').attr('href').replace('./blog', '');
-          //const image = $(element).find('img').attr('src');
+          const imageUrl = $(element).find('img').attr('src');
           //const content = $(element).find('p.framer-text').text().trim();
           const date = $(element).find('.framer-1ce0u31 p').text().trim();
           const source = 'Perplexity  Website';
           const company = 'perplexity';
 
           Logger.debug(
-            `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+            `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${imageUrl} `,
           );
-          newsItems.push({ title, link, date, source, company });
+          newsItems.push({ title, link, date, source, company, imageUrl });
         });
     });
 

@@ -38,11 +38,15 @@ export class CohereWebScraperService implements IScraper {
       const date = $(element).find('.overline-text time').attr('datetime');
       const source = 'Cohere Website';
       const company = 'cohare';
+      let imageUrl = $(element).find('.post-card-image').attr('src') || '';
+      if (!imageUrl.startsWith('http')) {
+        imageUrl = `https://txt.cohere.com${imageUrl}`;
+      }
 
       Logger.debug(
-        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${imageUrl} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({ title, link, date, source, company, imageUrl });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

@@ -15,8 +15,9 @@ export class AnthropicWebScraperService implements IScraper {
     return /^https?:\/\/.*anthropic.com.*\//i.test(url);
   }
   async scrapeArticle(url): Promise<NewsWithArticle[]> {
+    //https://www.anthropic.com/news
     if (!/^https?:\/\/.*anthropic.com.*\//i.test(url)) {
-      throw new Error('Invalid URL. Only ScalabilityAi URLs are allowed.');
+      throw new Error('Invalid URL. Only anthropic.com  URLs are allowed.');
     }
 
     const response = await fetch(url);
@@ -38,10 +39,27 @@ export class AnthropicWebScraperService implements IScraper {
       const date = $(element).find('.PostList_post-date__giqsu').text().trim();
       const source = 'Anthropic AI Website';
       const company = 'anthropic';
+      const imageUrl = $(element)
+        .find('.PostCard_post-card-photo__0kcwA img')
+        .attr('src');
+      let fullImageUrl = '';
+      if (imageUrl) {
+        fullImageUrl = imageUrl.startsWith('http')
+          ? imageUrl
+          : `https://www.anthropic.com${imageUrl}`;
+      }
+
       Logger.debug(
         `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({
+        title,
+        link,
+        date,
+        source,
+        company,
+        imageUrl: fullImageUrl,
+      });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { ArticleContentService } from '../scraper/article-content.service';
 import { NewsWithArticle } from '../scraper/news.type';
 import { IScraper } from './scraper.interface';
@@ -11,10 +12,11 @@ export class StabilityAiWebScraperService implements IScraper {
     this.articleContentService = new ArticleContentService();
   }
   canHandle(url: string): boolean {
+    //https://stability.ai/news
     return /^https?:\/\/.*stability.ai.*\//i.test(url);
   }
   async scrapeArticle(url): Promise<NewsWithArticle[]> {
-    if (!/^https?:\/\/.*stability.ai.*\//i.test(url)) {
+    if (!this.canHandle(url)) {
       throw new Error('Invalid URL. Only ScalabilityAi URLs are allowed.');
     }
 
@@ -35,8 +37,15 @@ export class StabilityAiWebScraperService implements IScraper {
       const date = $(element).find('.blog-date').text().trim();
       const source = 'Stability AI Website';
       const company = 'stability.ai';
+      const imageUrl =
+        $(element).find('.blog-image-wrapper').find('a img').attr('data-src') ||
+        $(element).find('.blog-image-wrapper').find('a img').attr('src');
 
-      newsItems.push({ title, link, date, source, company });
+      Logger.debug(
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} ${imageUrl} `,
+      );
+
+      newsItems.push({ title, link, date, source, company, imageUrl });
     });
 
     const withArticles: NewsWithArticle[] = await Promise.all(

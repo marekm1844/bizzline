@@ -37,10 +37,13 @@ export class SynthesiaWebScraperService implements IScraper {
       const date = null;
       const source = 'Synthesia Website';
       const company = 'Synthesia';
+      const imageUrl = $(element)
+        .find('.webinars-thumbnail-container img')
+        .attr('src');
       Logger.debug(
-        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} `,
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${imageUrl} `,
       );
-      newsItems.push({ title, link, date, source, company });
+      newsItems.push({ title, link, date, source, company, imageUrl });
     });
 
     function isUnique(
