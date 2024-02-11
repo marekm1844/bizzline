@@ -1,5 +1,15 @@
 import mongoose from 'mongoose';
 
+export enum NewsTag {
+  Team = 'Team',
+  Funding = 'Funding',
+  Partnership = 'Partnership',
+  Product = 'Product',
+  Legal = 'Legal',
+  Milestone = 'Milestone',
+  Acquisition = 'Acquisition',
+}
+
 export type News = {
   title: string;
   link: string;
@@ -16,7 +26,7 @@ export type NewsWithArticle = News & {
 export type NewsWithSummary = News & {
   summary: string;
   article: string;
-  imageUrl: string;
+  tag: NewsTag;
 };
 
 export const NewsSchema = new mongoose.Schema({
@@ -28,4 +38,9 @@ export const NewsSchema = new mongoose.Schema({
   article: String,
   summary: String,
   imageUrl: String,
+  tag: {
+    type: String,
+    required: true,
+    enum: Object.values(NewsTag), // Ensure the tag value is one of the enum values
+  },
 });

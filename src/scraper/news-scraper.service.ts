@@ -1,6 +1,6 @@
 import { Inject, Logger } from '@nestjs/common';
 import { IScraper } from '../scrapers/scraper.interface';
-import { NewsWithSummary } from './news.type';
+import { NewsTag, NewsWithSummary } from './news.type';
 import { GptSummaryService } from '../ai/llm.service';
 import { NewsRepository } from './news.repository';
 import { ScraperFactory } from './scraper.factory';
@@ -34,6 +34,7 @@ export class NewsScraperService {
           summary: summary.summary,
           article: summary.article,
           imageUrl: article.imageUrl,
+          tag: summary.tag as NewsTag,
         };
         await this.repo.create(withSummary);
         return withSummary;
