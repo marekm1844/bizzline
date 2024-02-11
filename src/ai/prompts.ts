@@ -3,7 +3,9 @@ import { PromptTemplate } from 'langchain/prompts';
 const formatInstructions = 'Format instructions: \n';
 
 export const GET_ARTICLE = new PromptTemplate({
-  template: `For a given string extract oryginal news artile without changing the text and give summary with 300 characters in length. 
+  template: `For a given string extract oryginal news artile without changing the text and give summary with 300 characters in length.
+  
+  Do not include any html code in artice ot sumamary.
 
      News String: {newsStory}
   
