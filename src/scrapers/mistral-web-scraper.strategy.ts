@@ -38,10 +38,12 @@ export class MistralWebScraperService implements IScraper {
       const source = 'Mistral  Website';
       const company = 'mistral';
       const imageUrl = $(element).find('img.card-img-top').attr('src');
-      const fullImageUrl = imageUrl.startsWith('http')
-        ? imageUrl
-        : `https://mistral.ai${imageUrl}`;
-
+      /**
+        const fullImageUrl = imageUrl.startsWith('http')
+          ? imageUrl
+          : `https://mistral.ai${imageUrl}`;
+      */
+      const fullImageUrl = '';
       Logger.debug(
         `[${this.constructor.name}] scrapeArticle: ${title} ${link} Date: ${date} ${source} ${company} ${fullImageUrl} `,
       );

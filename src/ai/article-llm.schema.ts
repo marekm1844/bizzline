@@ -1,22 +1,16 @@
 import * as z from 'zod';
 
 const Tags = z.enum(
-  [
-    'Team',
-    'Funding',
-    'Partnership',
-    'Product',
-    'Legal',
-    'Milestone',
-    'Acquisition',
-  ],
+  ['Team', 'Funding', 'Partnerships', 'Product', 'Milestones', 'Acquisition'],
   { description: 'Tags' },
 );
 
 export const ArticleSchema = z.object({
   article: z
     .string()
-    .describe('The full text of the article but with max of 15000 characters'),
+    .describe(
+      'the article with BBCode formatting as in the examplei.  Make new lien after each paragraph by using [tr][td] [/td][/tr] tags.',
+    ),
   summary: z
     .string()
     .describe('A summary of the article not exceeding 300 characters'),

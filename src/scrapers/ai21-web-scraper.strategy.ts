@@ -55,7 +55,7 @@ export class AI21WebScraperService implements IScraper {
         //const parsedDate = parse(item.date, 'MMM dd, yyyy', new Date());
         return {
           ...item,
-          date: null,
+          date: new Date(),
           innerText: articleHtml,
         };
       }),

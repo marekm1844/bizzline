@@ -37,7 +37,7 @@ export class CohereWebScraperService implements IScraper {
         $(element).find('a.post-card-content-link').attr('href');
       const date = $(element).find('.overline-text time').attr('datetime');
       const source = 'Cohere Website';
-      const company = 'cohare';
+      const company = 'cohere';
       let imageUrl = $(element).find('.post-card-image').attr('src') || '';
       if (!imageUrl.startsWith('http')) {
         imageUrl = `https://txt.cohere.com${imageUrl}`;

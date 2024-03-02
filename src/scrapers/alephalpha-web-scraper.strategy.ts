@@ -51,7 +51,7 @@ export class AlephAlphaWebScraperService implements IScraper {
           .pop()
           .split(' ')[0];
         const source = 'Aleph-alpha Website';
-        const company = 'aleph-alpha';
+        const company = 'alephalpha';
 
         // All logic to process the above variables should be here
         // No external references

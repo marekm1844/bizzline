@@ -19,7 +19,8 @@ export class GptSummaryService {
     this.openAI = new ChatOpenAI({
       temperature: 0.2,
       openAIApiKey: this.configService.get<string>('OPENAI_API_KEY'),
-      modelName: 'gpt-3.5-turbo-1106',
+      modelName: 'gpt-3.5-turbo',
+      maxTokens: 4096,
     });
 
     this.parser = StructuredOutputParser.fromZodSchema(ArticleSchema);
@@ -50,7 +51,11 @@ export class GptSummaryService {
     });
 
     const response = await this.openAI.call([new SystemMessage(finalPrompt)]);
+
     const output = await this.pareseOutput(response.content.toString());
+
+    if (output.article.includes('```\n```'))
+      output.article = output.article.replace(/```\n```/g, '```');
 
     return output;
   }

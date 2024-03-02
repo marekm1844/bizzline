@@ -35,4 +35,17 @@ export class NewsRepository {
   ): Promise<NewsWithSummary[]> {
     return this.newsModel.find({ company, date }).exec();
   }
+
+  async getNewsByCompany(
+    company: string,
+    page: number,
+    size: number,
+  ): Promise<NewsWithSummary[]> {
+    return this.newsModel
+      .find({ company })
+      .sort({ date: -1 })
+      .skip((page - 1) * size)
+      .limit(size)
+      .exec();
+  }
 }

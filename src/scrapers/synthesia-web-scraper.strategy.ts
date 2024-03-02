@@ -36,7 +36,7 @@ export class SynthesiaWebScraperService implements IScraper {
       // Assuming the date is present in a specific format or tag, which needs to be identified
       const date = null;
       const source = 'Synthesia Website';
-      const company = 'Synthesia';
+      const company = 'synthesia';
       const imageUrl = $(element)
         .find('.webinars-thumbnail-container img')
         .attr('src');

@@ -35,7 +35,7 @@ export class OpenAiWebScraperService implements IScraper {
       const link = 'https://openai.com/' + $(element).find('a').attr('href');
       const date = $(element).find('.f-body-1 span').first().text().trim();
       const source = 'Open AI Website';
-      const company = 'openai.com';
+      const company = 'openai';
       let imageUrl = $(element).find('img').attr('src');
       imageUrl = imageUrl.split('?')[0];
       Logger.debug(

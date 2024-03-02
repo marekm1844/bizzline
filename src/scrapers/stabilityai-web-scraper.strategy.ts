@@ -36,7 +36,7 @@ export class StabilityAiWebScraperService implements IScraper {
         'https://stability.ai' + $(element).find('.blog-title a').attr('href');
       const date = $(element).find('.blog-date').text().trim();
       const source = 'Stability AI Website';
-      const company = 'stability.ai';
+      const company = 'stabilityai';
       const imageUrl =
         $(element).find('.blog-image-wrapper').find('a img').attr('data-src') ||
         $(element).find('.blog-image-wrapper').find('a img').attr('src');

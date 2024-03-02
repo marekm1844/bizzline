@@ -3,7 +3,7 @@ import { ArticleContentService } from '../scraper/article-content.service';
 import { NewsWithArticle } from '../scraper/news.type';
 import { IScraper } from './scraper.interface';
 import * as cheerio from 'cheerio';
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 export class AnthropicWebScraperService implements IScraper {
   private articleContentService: ArticleContentService;
@@ -35,8 +35,8 @@ export class AnthropicWebScraperService implements IScraper {
         .find('.PostCard_post-heading__KPsva')
         .text()
         .trim();
-      const link = 'https://www.anthropic.com/' + $(element).attr('href');
-      const date = $(element).find('.PostList_post-date__giqsu').text().trim();
+      const link = 'https://www.anthropic.com' + $(element).attr('href');
+      let date = $(element).find('.PostList_post-date__giqsu').text().trim();
       const source = 'Anthropic AI Website';
       const company = 'anthropic';
       const imageUrl = $(element)
@@ -50,8 +50,12 @@ export class AnthropicWebScraperService implements IScraper {
       }
 
       Logger.debug(
-        `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} `,
+        `[${this.constructor.name}] scrapeArticle: ${title} ${link} ${date} ${source} ${company} ${fullImageUrl} `,
       );
+
+      if (!date) {
+        date = format(new Date(), 'MMM dd, yyyy');
+      }
       newsItems.push({
         title,
         link,

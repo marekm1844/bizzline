@@ -37,7 +37,7 @@ export class HuggingFaceWebScraperService implements IScraper {
         if (props.blog) {
           const title = props.blog.title;
           const date = props.blog.date;
-          const link = 'https://huggingface.co/blog' + props.blog.local;
+          const link = 'https://huggingface.co/blog/' + props.blog.local;
           const source = 'HuggingFace Website';
           const company = 'huggingface';
           const imageUrl = 'https://huggingface.co' + props.blog.thumbnail;
