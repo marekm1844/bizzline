@@ -27,7 +27,7 @@ export class NewsController {
 
   @Get('latest')
   async getLatestNewsDate(@Query('company') companyName: string) {
-    return await this.newsScraperService.getLatestNewsDate(companyName);
+    return await this.bubbleService.getLatestPostForCompany(companyName);
   }
 
   @Get()

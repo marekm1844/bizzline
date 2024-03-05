@@ -9,7 +9,7 @@ GET http://localhost:3000/news/scrape?url=https://www.anthropic.com/news
 
 
 ### Get latest date for company
-GET http://localhost:3000/news/latest?company=runwayml
+GET http://localhost:3000/api/news/latest?company=openai
 
 ### Get post from bubble
 GET http://localhost:3000/api/news/bubble?id=1709221313790x900353731067094800

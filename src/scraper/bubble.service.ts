@@ -10,6 +10,15 @@ import { NewsWithSummary } from './news.type';
 import FormData from 'form-data';
 import { ImageService } from './image.service';
 
+interface ApiResponse {
+  response: {
+    cursor: number;
+    results: any;
+    count: number;
+    remaining: number;
+  };
+}
+
 @Injectable()
 export class BubbleService implements OnModuleInit {
   private readonly apiUrl =
@@ -139,5 +148,53 @@ export class BubbleService implements OnModuleInit {
       .replace(/[^a-z0-9 -]/g, '') // Remove invalid chars
       .replace(/\s+/g, '-') // Replace spaces with -
       .replace(/-+/g, '-'); // Replace multiple - with single -
+  }
+
+  async getLatestPostForCompany(
+    company: string,
+  ): Promise<NewsWithSummary | null> {
+    const constraints = [
+      {
+        key: 'is Api',
+        constraint_type: 'equals',
+        value: 'true',
+      },
+      {
+        key: 'posted_by__company__custom_company',
+        constraint_type: 'equals',
+        value: this.companies[company],
+      },
+    ];
+
+    const url = `${this.apiUrl}/post?constraints=${encodeURIComponent(JSON.stringify(constraints))}&sort_field=post_date_date&descending=true&limit=1`;
+    const response = await firstValueFrom(
+      this.httpService
+        .get<ApiResponse>(url, {
+          headers: { Authorization: `Bearer ${this.apiToken}` },
+        })
+        .pipe(map((response) => response.data)),
+    );
+
+    // Check if there are any results
+    if (response?.response?.results?.length > 0) {
+      const post = response.response.results[0];
+
+      // Map the API response to NewsWithSummary type
+      const newsWithSummary: NewsWithSummary = {
+        title: post.post_title_text,
+        link: '', // The API response does not seem to contain a direct link field
+        date: new Date(post.post_date_date),
+        source: '',
+        company: company,
+        imageUrl: null, // image to big as it is base64
+        summary: post.post_summary_text,
+        article: post.post_body_text,
+        tag: null,
+      };
+
+      return newsWithSummary;
+    }
+
+    return null;
   }
 }
