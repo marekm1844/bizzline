@@ -33,7 +33,7 @@ export class NewsScraperService {
         date: article.date,
         link: article.link,
         source: article.source,
-        title: article.title,
+        title: summary.title,
         summary: summary.summary,
         article: summary.article,
         imageUrl: article.imageUrl,

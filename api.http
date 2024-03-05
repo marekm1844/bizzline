@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/news?company=openai.com&page=1&size=1
 
 ### Scrape article
-GET http://localhost:3000/api/news/scrape?url=https://huggingface.co/blog
+GET http://localhost:3000/api/news/scrape?url=https://openai.com/blog?topics=announcements
 
 ### Scrape article Scalability AI
 GET http://localhost:3000/news/scrape?url=https://www.anthropic.com/news

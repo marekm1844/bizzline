@@ -9,8 +9,12 @@ export const ArticleSchema = z.object({
   article: z
     .string()
     .describe(
-      'the article with BBCode formatting as in the examplei.  Make new lien after each paragraph by using [tr][td] [/td][/tr] tags.',
+      'the article with BBCode formatting as in the examplei.  Make new line after each paragraph by using [tr][td] [/td][/tr] [tr][td] [/td][/tr] BBCode tags.',
     ),
+  title: z
+    .string()
+    .max(200)
+    .describe('The title of the article not exceeding 200 characters'),
   summary: z
     .string()
     .describe('A summary of the article not exceeding 300 characters'),
