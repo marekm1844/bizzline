@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
+import { yamlConfigLoader } from './config';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     AiModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [yamlConfigLoader],
     }),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
