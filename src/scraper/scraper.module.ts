@@ -12,19 +12,21 @@ import { ScraperFactory } from './scraper.factory';
 import { BubbleService } from './bubble.service';
 import { HttpModule } from '@nestjs/axios';
 import { ImageService } from './image.service';
+import { ImageAssetsModule } from 'src/assets/image-asset.module';
 
 @Module({
   imports: [
     AiModule,
     ScrapersModule,
-    MongooseModule.forFeature([{ name: 'News', schema: NewsSchema }]),
+    // MongooseModule.forFeature([{ name: 'News', schema: NewsSchema }]),
     HttpModule,
+    ImageAssetsModule,
   ],
   providers: [
     GoogleNewsService,
     NewsScraperService,
     ArticleContentService,
-    NewsRepository,
+    // NewsRepository,
     ScraperFactory,
     BubbleService,
     ImageService,

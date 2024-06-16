@@ -10,6 +10,10 @@ export class SynthesiaWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://www.synthesia.io/blog/category/synthesia-news
     return /^https?:\/\/.*synthesia.io.*\//i.test(url);

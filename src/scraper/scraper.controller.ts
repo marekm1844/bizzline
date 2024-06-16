@@ -5,24 +5,37 @@ import { NewsScraperService } from './news-scraper.service';
 import { News } from './news.type';
 import { NewsRepository } from './news.repository';
 import { BubbleService } from './bubble.service';
+import { DocumentService } from 'src/ai/document.service';
+import { Document } from 'langchain/dist/document';
+import { get } from 'http';
 
 @Controller('news')
 export class NewsController {
   constructor(
     private readonly newsService: GoogleNewsService,
     private readonly newsScraperService: NewsScraperService,
-    private readonly newsRepository: NewsRepository,
+    //private readonly newsRepository: NewsRepository,
     private readonly bubbleService: BubbleService,
+    private readonly documentService: DocumentService,
   ) {}
 
-  @Get('google-scrape')
-  async getCompanyNews(@Query('company') companyName: string) {
-    return await this.newsService.scrapeCompanyNews(companyName);
+  @Get('generate')
+  async generateDocument(@Query('url') url: string) {
+    const document = await this.documentService.fetchArticleContent(url);
+    //return document;
   }
 
   @Get('scrape')
-  async scrape(@Query('url') url: string): Promise<News[]> {
-    return await this.newsScraperService.scrapeArticle(url);
+  async scrape(
+    @Query('url') url: string,
+    @Query('company') companyName: string,
+    @Query('scraper') scraperName: string | null,
+  ): Promise<News[]> {
+    return await this.newsScraperService.scrapeArticle(
+      url,
+      companyName,
+      scraperName,
+    );
   }
 
   @Get('latest')
@@ -30,25 +43,13 @@ export class NewsController {
     return await this.bubbleService.getLatestPostForCompany(companyName);
   }
 
-  @Get()
-  async getNews(
-    @Query('company') company: string,
-    @Query('page') page: number,
-    @Query('size') size: number,
-  ) {
-    const result = await this.newsRepository.getNewsByCompany(
-      company,
-      page,
-      size,
-    );
-
-    Logger.debug(`getNews: ${JSON.stringify(result)}`);
-
-    this.bubbleService.createPost(result[0]);
-  }
-
   @Get('bubble')
   async getBubbleData(@Query('id') id: string) {
     return await this.bubbleService.getApiPost(id);
+  }
+
+  @Get('scrapeAll')
+  async scrapeAll() {
+    return await this.newsScraperService.handleCron();
   }
 }

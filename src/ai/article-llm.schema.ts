@@ -1,7 +1,15 @@
 import * as z from 'zod';
 
 const Tags = z.enum(
-  ['Team', 'Funding', 'Partnerships', 'Product', 'Milestones', 'Acquisition'],
+  [
+    'Team',
+    'Funding',
+    'Partnerships',
+    'Product',
+    'Milestones',
+    'Acquisition',
+    'Legal',
+  ],
   { description: 'Tags' },
 );
 
@@ -21,6 +29,11 @@ export const ArticleSchema = z.object({
   tag: Tags.describe(
     'Assign tag based on the context of the article from categories such as Team, Funding, etc.',
   ),
+  date: z
+    .string()
+    .describe(
+      'The date of the article in the format YYYY-MM-DD. If no date is available, it should be an empty string.',
+    ),
 });
 
 // This type can be used elsewhere in your code

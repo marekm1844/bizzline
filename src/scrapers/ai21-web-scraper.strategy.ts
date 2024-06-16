@@ -10,6 +10,9 @@ export class AI21WebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://www.ai21.com/blog
     return /^https?:\/\/.*ai21.com.*\//i.test(url);

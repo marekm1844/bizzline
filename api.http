@@ -2,14 +2,21 @@
 GET http://localhost:3000/api/news?company=openai.com&page=1&size=1
 
 ### Scrape article
-GET http://localhost:3000/api/news/scrape?url=https://openai.com/blog?topics=announcements
-
-### Scrape article Scalability AI
+GET http://localhost:3000/api/news/scrape?url=https://openai.com/news/&company=openai&scraper=PythonWebScraperService
+### Scrape article Scalability AIp-posts
 GET http://localhost:3000/news/scrape?url=https://www.anthropic.com/news
 
 
-### Get latest date for company
-GET http://localhost:3000/api/news/latest?company=openai
+### Get latest date for compa
+GET http://localhost:3000/news/latest?company=openai
 
 ### Get post from bubble
 GET http://localhost:3000/api/news/bubble?id=1709221313790x900353731067094800
+
+### generate doc from html
+GET http://localhost:3000/api/news/generate?url=https://www.moveworks.com/us/en/company/news/press-releases
+
+
+### Scrape All
+GET http://localhost:3000/api/news/scrapeAll
+

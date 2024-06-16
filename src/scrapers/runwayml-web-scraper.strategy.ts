@@ -10,6 +10,10 @@ export class RunwayMLWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://runwayml.com/blog/
     return /^https?:\/\/.*runwayml.*\//i.test(url);

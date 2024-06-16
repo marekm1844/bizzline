@@ -1,0 +1,78 @@
+https://www.moveworks.com/us/en/company/news/press-releases&company=moveworks
+https://elevenlabs.io/blog&company=elevenlabs 
+https://blog.character.ai&company=characterai
+https://landing.ai/category/news&company=landingai
+https://scale.com/blog&company=scaleai
+https://www.clarifai.com/company/press&company=clarifai
+https://www.adept.ai/blog&company=adept
+https://www.marqvision.com/news/home&company=marqvision
+https://www.assemblyai.com/blog&company=assemblyai
+https://ambient.ai/resources&company=ambient
+https://www.jasper.ai/press#news-coverage&company=jasperai //No own news just links to other sites, Does not work
+https://synthesia.io/blog/category/synthesia-news&company=synthesia
+https://pika.art/about&company=pika
+https://mistral.ai/news&company=mistral
+https://txt.cohere.com/tag/newsroom&company=cohere
+https://inflection.ai/blog&company=inflectionai Tip:   If the company that we are scraping is Infection Ai the address of the artilces are like  https://inflection.ai/inflection-2 There is no "blog" in the address. 
+https://www.ai21.com/blog&company=ai21&scraper=PythonWebScraperService 
+https://www.anthropic.com/news?type=company&company=anthropic
+https://stability.ai/news&company=stabilityai
+https://runwayml.com/blog/&company=runwayml
+https://midjourneyaiapp.org/category/news&company=midjourney
+https://gatik.ai/news/blog/&company=gatik
+https://maymobility.com/posts/?types=254&page=1&company=maymobility -- No Images/ would need more work
+https://arrival.com/topic/news&company=arrival -- DOes not work
+https://altana.ai/blog&company=altana-1 . --no dates
+https://notraffic.tech/category/blog/&company=notraffic - Does not work
+https://www.resemble.ai/blog/&company=resembleai -- no images
+https://jiminny.com/news&company=jiminny - no images
+https://www.people.ai/newsroom&company=peopleai
+https://www.wondercraft.ai/blog&company=wondercraft
+https://bearing.ai/blog&company=bearingai -- only 1 article
+https://www.populus.ai/blog&company=populus
+https://deepsea.ai/news/&company=deepsea
+https://blog.optibus.com/&company=optibus
+https://www.typewise.app/blog&company=typewise
+https://www.acrolinx.com/news-releases&company=acrolinx -- links to external sites
+https://www.acrolinx.com/blog/category/product-updates&company=acrolinx
+https://www.acrolinx.com/blog/category/acrolinx-customers&company=acrolinx
+https://www.acrolinx.com/blog/category/acrolinx-partners&company=acrolinx
+https://www.persado.com/company/press-releases/&company=persado
+https://www.conversica.com/blog/category/conversica/&company=conversica -- generates fublicates and empty articles
+https://www.conversica.com/news/&company=conversica
+https://www.typeface.ai/blog&company=typeface
+https://phrasee.co/blog-and-news/?news-type=news&company=phrasee -- misplaced images empty articles : Exciting News from Our Team This is the first paragraph of the article.
+https://thehive.ai/blog/?content_type=blog_post&product_area=company&company=hive
+https://huggingface.co/blog&company=huggingface
+https://openai.com/news/&company=openai&scraper=PythonWebScraperService,
+https://www.descript.com/blog/category/product-updates&company=descript
+https://wellsaidlabs.com/blog/category/announcements/&company=wellsaid
+https://www.peech-ai.com/blog&company=peech
+https://elai.io/category/news&company=elai
+https://www.veed.io/blog-category/company-news&company=veedio
+https://fliki.ai/resources/whats-new&company=fliki -- dublication of articles
+https://www.colossyan.com/blog&company=colossyan -- does not work
+https://www.deepbrain.io/blog-category/news&company=deepbrainai
+https://www.rosebud.ai/blog&company=rosebud
+https://bria.ai/resource-hub/&company=bria
+https://speechify.com/blog/&company=speechify -- too long articles
+https://www.nplan.io/news-and-press&company=nplan -- external links
+https://www.forcepoint.com/newsroom?page=1&company=forcepoint -- older articles
+https://www.forcepoint.com/blog?page=1&company=forcepoint
+https://hiddenlayer.com/company/newsroom/&company=hiddenlayer
+https://seismic.com/uk/blog/category/one-seismic-uk/?view=list&company=seismic
+https://6sense.com/blog/company/&company=6sense -- timeout
+https://www.gong.io/blog/&company=gong -- ok but one was with stability
+https://www.quantexa.com/press/&company=quantexa -- does not work
+https://www.quantexa.com/newsroom/&company=quantexa -- does not work
+https://news.vinai.io/news/&company=vinai
+https://c3.ai/blog/&company=c3ai -- ok, some stabilityai
+https://www.datarobot.com/newsroom/press/&company=datarobot
+https://tome.app/blog&company=tome
+https://blog.elicit.com/&company=elicit
+https://www.spot.ai/tags/news/&company=spotai-1
+https://www.spot.ai/tags/product&company=spotai-1
+https://www.datasnipper.com/resources?verticals=PR&company=datasnipper -- repeted one article multiple times
+https://www.read.ai/blog&company=readai
+https://storytell.ai/blog&company=storytellai
+

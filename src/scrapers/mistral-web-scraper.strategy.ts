@@ -11,6 +11,10 @@ export class MistralWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://mistral.ai/news/
     return /^https?:\/\/.*mistral.ai.*\//i.test(url);

@@ -11,6 +11,10 @@ export class CohereWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://txt.cohere.com/tag/newsroom/
     return /^https?:\/\/.*cohere.*\//i.test(url);

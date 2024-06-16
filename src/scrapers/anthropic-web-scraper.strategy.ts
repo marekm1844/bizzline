@@ -11,6 +11,10 @@ export class AnthropicWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     return /^https?:\/\/.*anthropic.com.*\//i.test(url);
   }

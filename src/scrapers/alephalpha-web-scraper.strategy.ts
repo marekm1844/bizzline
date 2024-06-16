@@ -11,6 +11,10 @@ export class AlephAlphaWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://aleph-alpha.com/news/
     return /^https?:\/\/.*aleph-alpha.*\//i.test(url);

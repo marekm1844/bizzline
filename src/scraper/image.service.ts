@@ -13,11 +13,44 @@ export class ImageService {
       if (!isImage) {
         return '';
       }
-      const response = await axios.get(url, { responseType: 'arraybuffer' });
-      const buffer = Buffer.from(response.data);
 
-      // Step 2: Read the image with Jimp
-      let image = await Jimp.read(buffer);
+      let response;
+      try {
+        response = await axios.get(url, { responseType: 'arraybuffer' });
+      } catch (error) {
+        // If the request fails, return an empty string
+        return '';
+      }
+
+      let buffer;
+      try {
+        buffer = Buffer.from(response.data);
+      } catch (err) {
+        //image too large
+        return '';
+      }
+
+      // Check if the image size exceeds the limit
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (buffer.length > maxSize) {
+        return '';
+      }
+
+      let image = null;
+
+      // Check if the image format is webp
+      if (response.headers['content-type'] === 'image/webp') {
+        //TODO: webp not supported by Jimp
+        return '';
+      } else {
+        try {
+          image = await Jimp.read(buffer);
+        } catch (error) {
+          // If reading the image fails (e.g., due to memory limit), return an empty string
+          return '';
+        }
+      }
+
       let quality = 80;
       let size = 0;
 

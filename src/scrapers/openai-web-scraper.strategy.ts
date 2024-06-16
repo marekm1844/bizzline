@@ -11,6 +11,10 @@ export class OpenAiWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://openai.com/blog?topics=announcements
     return /^https?:\/\/.*openai.com.*\//i.test(url);
@@ -32,7 +36,7 @@ export class OpenAiWebScraperService implements IScraper {
 
     $('.ui-list .cols-container li').each((index, element) => {
       const title = $(element).find('h3').text().trim();
-      const link = 'https://openai.com/' + $(element).find('a').attr('href');
+      const link = 'https://openai.com' + $(element).find('a').attr('href');
       const date = $(element).find('.f-body-1 span').first().text().trim();
       const source = 'Open AI Website';
       const company = 'openai';

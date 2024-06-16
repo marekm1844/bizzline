@@ -17,6 +17,7 @@ export type News = {
   source: string;
   company: string;
   imageUrl: string;
+  coverImageUrl?: string;
 };
 
 export type NewsWithArticle = News & {
@@ -27,6 +28,7 @@ export type NewsWithSummary = News & {
   summary: string;
   article: string;
   tag: NewsTag;
+  hasDate: boolean;
 };
 
 export const NewsSchema = new mongoose.Schema({

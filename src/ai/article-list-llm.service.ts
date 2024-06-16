@@ -6,12 +6,12 @@ import {
   StructuredOutputParser,
 } from 'langchain/output_parsers';
 import { ZodType } from 'zod';
-import { ArticleSchema } from './article-llm.schema';
-import { GET_ARTICLE } from './prompts';
+import { GET_ARTICLE_LIST } from './prompts';
 import { SystemMessage } from 'langchain/schema';
+import { ArticleListSchema } from './article-list.schema';
 
 @Injectable()
-export class GptSummaryService {
+export class ArticleListLLMService {
   private readonly openAI: ChatOpenAI;
   private readonly parser: StructuredOutputParser<ZodType>;
 
@@ -19,17 +19,16 @@ export class GptSummaryService {
     this.openAI = new ChatOpenAI({
       temperature: 0.2,
       openAIApiKey: this.configService.get<string>('OPENAI_API_KEY'),
-      modelName: 'gpt-3.5-turbo',
-      //modelName: 'gpt-4-1106-preview',
-      maxTokens: 4096,
+      modelName: 'gpt-4o',
+      //maxTokens: 4096,
     });
 
-    this.parser = StructuredOutputParser.fromZodSchema(ArticleSchema);
+    this.parser = StructuredOutputParser.fromZodSchema(ArticleListSchema);
   }
 
   private async pareseOutput(
     output: string,
-  ): Promise<(typeof ArticleSchema)['_type']> {
+  ): Promise<(typeof ArticleListSchema)['_type']> {
     let parsedOutput;
     try {
       parsedOutput = await this.parser.parse(output);
@@ -38,25 +37,22 @@ export class GptSummaryService {
       parsedOutput = await fixParser.parse(output);
     }
 
-    return ArticleSchema.parse(parsedOutput);
+    return ArticleListSchema.parse(parsedOutput);
   }
 
   async generateJsonSummary(
     articleText: string,
-  ): Promise<(typeof ArticleSchema)['_type']> {
+  ): Promise<(typeof ArticleListSchema)['_type']> {
     const formatInstructions = this.parser.getFormatInstructions();
-    GET_ARTICLE.partialVariables = { formatInstructions };
+    GET_ARTICLE_LIST.partialVariables = { formatInstructions };
 
-    const finalPrompt = await GET_ARTICLE.format({
-      newsStory: articleText,
+    const finalPrompt = await GET_ARTICLE_LIST.format({
+      newsPage: articleText,
     });
 
     const response = await this.openAI.call([new SystemMessage(finalPrompt)]);
 
     const output = await this.pareseOutput(response.content.toString());
-
-    if (output.article.includes('```\n```'))
-      output.article = output.article.replace(/```\n```/g, '```');
 
     return output;
   }

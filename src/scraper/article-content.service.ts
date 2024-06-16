@@ -1,5 +1,5 @@
 // article-content.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { chromium } from 'playwright';
 import * as cheerio from 'cheerio';
@@ -27,14 +27,70 @@ export class ArticleContentService {
         await page.goto(url, { waitUntil: 'networkidle' });
         htmlContent = await page.content();
         await browser.close();
+
+        if (htmlContent.includes('Verifying you are human')) {
+          throw new Error('Verifying you are human');
+        }
       } catch (playwrightError) {
         console.error('Playwright fetching error:', playwrightError);
         await browser.close();
-        throw playwrightError;
+        // Fallback to API
+        try {
+          const apiResponse = await this.fetchArticleContentFromApi(url);
+          return apiResponse;
+        } catch (apiError) {
+          console.error('API fetching error:', apiError);
+          throw apiError;
+        }
       }
     }
     // Cleaning HTML content
-    return this.cleanHtmlContent(htmlContent);
+    const value = this.cleanHtmlContent(htmlContent);
+    if (value.length > 45000) {
+      const apiResponse = await this.fetchArticleContentFromApi(url);
+      return apiResponse;
+    }
+    return value;
+  }
+
+  private async fetchArticleContentFromApi(url: string): Promise<string> {
+    const apiUrl = 'https://bizzline-api-py-scraper.azurewebsites.net/scrape';
+    const apiKey = 'SeW4%ptum0df5TcJSJ0%V';
+    const prompt =
+      'Write summary of article as one long article (long_article_description) writen in news-style writing style';
+    const model = 'gpt-3.5-turbo';
+
+    try {
+      const response = await axios.post(
+        apiUrl,
+        {
+          url: url,
+          prompt: prompt,
+          model: model,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+          },
+          timeout: 180000,
+        },
+      );
+
+      Logger.debug(
+        `[${this.constructor.name}] response: ${JSON.stringify(response.data)}`,
+      );
+      if (!response || !response.data) {
+        throw new Error(
+          `Error fetching article from API: ${JSON.stringify(response)}`,
+        );
+      }
+
+      return response.data.long_article_description;
+    } catch (error) {
+      console.error('Error fetching article from API:', error);
+      throw error;
+    }
   }
 
   private cleanHtmlContent(htmlContent: string): string {

@@ -22,7 +22,8 @@ interface ApiResponse {
 @Injectable()
 export class BubbleService implements OnModuleInit {
   private readonly apiUrl =
-    'https://bizzline-52212.bubbleapps.io/version-test/api/1.1/obj';
+    // 'https://bizzline-52212.bubbleapps.io/version-test/api/1.1/obj';
+    'https://bizzline.ai/api/1.1/obj';
   private readonly apiToken: string;
   private tags: { [key: string]: any } = {};
   private companies: { [key: string]: any } = {};
@@ -116,7 +117,16 @@ export class BubbleService implements OnModuleInit {
     );
     formData.append('tags_list_custom_tags', `["${this.tags[data.tag]}"]`);
     formData.append('top_post_boolean', 'false');
-    formData.append('post_date_date', data.date.toISOString());
+
+    let strDate;
+    let hadDate = true;
+    try {
+      strDate = data.date.toISOString();
+    } catch (e) {
+      strDate = new Date().toISOString();
+      hadDate = false;
+    }
+    formData.append('post_date_date', strDate);
     formData.append('is_api_boolean', 'true');
     formData.append(
       'posted_by__user__user',
@@ -126,7 +136,17 @@ export class BubbleService implements OnModuleInit {
       formData.append('images_list_image', `["${imgB64}"]`);
     }
     formData.append('post_summary_text', data.summary);
-    //formData.append('Slug', this.createSLug(data.title));
+    formData.append('orgurl_text', data.link);
+    formData.append('had_date_boolean', hadDate ? 'true' : 'false');
+    if (data.coverImageUrl) {
+      formData.append('coverimageurl_text', data.coverImageUrl);
+    }
+    /**
+      formData.append(
+        '_slug_text"',
+        this.createSlugWithTitleAndDate(data.title, data.date),
+      );
+    */
 
     const url = `${this.apiUrl}/post`;
     const headers = {
@@ -148,6 +168,22 @@ export class BubbleService implements OnModuleInit {
       .replace(/[^a-z0-9 -]/g, '') // Remove invalid chars
       .replace(/\s+/g, '-') // Replace spaces with -
       .replace(/-+/g, '-'); // Replace multiple - with single -
+  }
+
+  private createSlugWithTitleAndDate(
+    title: string,
+    date: Date = new Date(),
+  ): string {
+    const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+
+    const ret = `${dateString}-${title
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')}`;
+
+    Logger.debug(`[${this.constructor.name}] Slug created: ${ret}`);
+    return ret;
   }
 
   async getLatestPostForCompany(
@@ -179,10 +215,12 @@ export class BubbleService implements OnModuleInit {
     if (response?.response?.results?.length > 0) {
       const post = response.response.results[0];
 
+      const hasDate = post.had_date_boolean === 'true' ? true : false;
+
       // Map the API response to NewsWithSummary type
       const newsWithSummary: NewsWithSummary = {
         title: post.post_title_text,
-        link: '', // The API response does not seem to contain a direct link field
+        link: post.orgurl_text,
         date: new Date(post.post_date_date),
         source: '',
         company: company,
@@ -190,6 +228,7 @@ export class BubbleService implements OnModuleInit {
         summary: post.post_summary_text,
         article: post.post_body_text,
         tag: null,
+        hasDate: hasDate,
       };
 
       return newsWithSummary;

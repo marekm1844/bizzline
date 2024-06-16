@@ -11,6 +11,10 @@ export class HuggingFaceWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://huggingface.co/blog
     return /^https?:\/\/.*huggingface.*\//i.test(url);

@@ -11,6 +11,10 @@ export class InflectionAiWebScraperService implements IScraper {
   constructor() {
     this.articleContentService = new ArticleContentService();
   }
+
+  getName(): string {
+    return this.constructor.name;
+  }
   canHandle(url: string): boolean {
     //https://inflection.ai/blog
     return /^https?:\/\/.*inflection.ai.*\//i.test(url);
